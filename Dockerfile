@@ -27,7 +27,7 @@ RUN apk add --no-cache \
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Install puppeteer + stealth plugins globally
+# Install Puppeteer + plugins
 RUN npm install -g \
   puppeteer \
   puppeteer-extra \
@@ -35,4 +35,14 @@ RUN npm install -g \
   puppeteer-extra-plugin-user-preferences \
   puppeteer-extra-plugin-user-data-dir
 
+# Copy local files into image
+COPY workflows /workflows
+COPY credentials /credentials
+COPY startup.sh /startup.sh
+
+RUN chmod +x /startup.sh
+
 USER node
+
+# Start script
+ENTRYPOINT ["/startup.sh"]
