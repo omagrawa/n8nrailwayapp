@@ -35,11 +35,12 @@ RUN npm install -g \
   puppeteer-extra-plugin-user-preferences \
   puppeteer-extra-plugin-user-data-dir
 
-# Copy local files into image
+# Copy workflow & credential files into container
 COPY workflows /workflows
 COPY credentials /credentials
-COPY startup.sh /startup.sh
 
+# Copy and make the startup script executable (adjusted path)
+COPY scripts/startup.sh /startup.sh
 RUN chmod +x /startup.sh
 
 USER node
